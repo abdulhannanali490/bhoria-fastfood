@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhoria Fast Food | Good Food, Good Mood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0c0a08;
+    --black-2:#161210;
+    --gold:#f0b93b;
+    --gold-2:#ffd873;
+    --red:#e2222b;
+    --red-2:#a5121a;
+    --cream:#f7ecd8;
+    --smoke:#2a221b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--cream);
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Anton',sans-serif;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+  }
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+
+  /* Texture background */
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:radial-gradient(circle at 20% 20%, rgba(240,185,59,0.05), transparent 40%),
+                      radial-gradient(circle at 80% 70%, rgba(226,34,43,0.07), transparent 45%);
+  }
+
+  /* NAV */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 5%;
+    background:rgba(12,10,8,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(240,185,59,0.15);
+    transition:padding 0.3s ease;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{height:52px;width:auto;}
+  .brand span{
+    font-family:'Anton',sans-serif;
+    font-size:1.3rem;
+    color:var(--gold);
+    letter-spacing:1px;
+  }
+  nav ul{display:flex;gap:32px;}
+  nav a{
+    font-weight:600;font-size:0.9rem;
+    text-transform:uppercase;letter-spacing:0.5px;
+    color:var(--cream);
+    position:relative;
+    padding-bottom:4px;
+  }
+  nav a::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:2px;
+    background:var(--red);transition:width 0.25s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .cart-btn{
+    display:flex;align-items:center;gap:8px;
+    background:var(--red);color:#fff;
+    padding:10px 20px;border-radius:30px;
+    font-weight:700;font-size:0.85rem;
+    text-transform:uppercase;letter-spacing:0.5px;
+    border:none;cursor:pointer;
+    box-shadow:0 4px 14px rgba(226,34,43,0.4);
+    transition:transform 0.2s ease;
+  }
+  .cart-btn:hover{transform:translateY(-2px);}
+  .cart-count{
+    background:var(--gold);color:var(--black);
+    border-radius:50%;width:20px;height:20px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.7rem;font-weight:800;
+  }
+  .menu-toggle{display:none;font-size:1.6rem;color:var(--gold);background:none;border:none;cursor:pointer;}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    padding:120px 5% 60px;
+    background:var(--black);
+    text-align:center;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;z-index:1;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(240,185,59,0.03) 0px, rgba(240,185,59,0.03) 2px, transparent 2px, transparent 40px);
+    pointer-events:none;
+  }
+  .hero-slider{
+    position:absolute;inset:0;z-index:0;
+  }
+  .hero-slide{
+    position:absolute;inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:0;
+    transition:opacity 1.2s ease;
+  }
+  .hero-slide.active{opacity:1;}
+  .hero-overlay{
+    position:absolute;inset:0;z-index:1;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(226,34,43,0.25), transparent 55%),
+      linear-gradient(180deg, rgba(12,10,8,0.55) 0%, rgba(12,10,8,0.8) 65%, var(--black) 100%);
+  }
+  .hero-inner{position:relative;z-index:2;max-width:820px;}
+  .hero img.hero-logo{
+    width:min(340px, 60vw);
+    margin:0 auto 18px;
+    filter:drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+    animation:float 5s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+  }
+  .eyebrow{
+    color:var(--gold);
+    font-weight:700;
+    letter-spacing:4px;
+    font-size:0.85rem;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    color:var(--cream);
+    line-height:0.95;
+    text-shadow:0 0 30px rgba(226,34,43,0.3);
+  }
+  .hero h1 span{color:var(--gold);}
+  .hero p.sub{
+    margin:18px auto 34px;
+    max-width:520px;
+    color:#d8cdb8;
+    font-size:1.05rem;
+    line-height:1.6;
+  }
+  .hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 32px;
+    border-radius:40px;
+    font-weight:700;
+    font-size:0.95rem;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    cursor:pointer;
+    border:none;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--gold-2), var(--gold));
+    color:var(--black);
+    box-shadow:0 8px 24px rgba(240,185,59,0.35);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(240,185,59,0.5);}
+  .btn-outline{
+    background:transparent;
+    color:var(--cream);
+    border:2px solid rgba(247,236,216,0.3);
+  }
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+  .flame-strip{
+    position:absolute;bottom:0;left:0;right:0;height:6px;
+    background:linear-gradient(90deg, var(--red), var(--gold), var(--red));
+  }
+
+  /* SECTION HEADERS */
+  .section{padding:100px 5%;position:relative;}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 56px;}
+  .section-head .eyebrow{justify-content:center;display:flex;}
+  .section-head h2{
+    font-size:clamp(2rem, 4.5vw, 3rem);
+    color:var(--cream);
+  }
+  .section-head h2 span{color:var(--red);}
+  .section-head p{color:#c9bda3;margin-top:12px;font-size:1rem;}
+
+  /* MENU */
+  .menu-section{background:var(--black-2);}
+  .tabs{
+    display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+    margin-bottom:48px;
+  }
+  .tab{
+    padding:10px 22px;border-radius:30px;
+    border:1px solid rgba(240,185,59,0.3);
+    color:var(--cream);
+    font-weight:600;font-size:0.85rem;
+    text-transform:uppercase;letter-spacing:0.5px;
+    cursor:pointer;background:transparent;
+    transition:all 0.2s ease;
+  }
+  .tab.active,.tab:hover{
+    background:var(--gold);
+    color:var(--black);
+    border-color:var(--gold);
+  }
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:26px;
+    max-width:1200px;margin:0 auto;
+  }
+  .menu-category{display:none;}
+  .menu-category.active{display:grid;grid-template-columns:inherit;gap:26px;grid-column:1/-1;}
+  .item-card{
+    background:linear-gradient(160deg, #1c1712, #100d0a);
+    border:1px solid rgba(240,185,59,0.12);
+    border-radius:18px;
+    padding:22px;
+    display:flex;flex-direction:column;gap:12px;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+  }
+  .item-card:hover{transform:translateY(-6px);border-color:rgba(240,185,59,0.4);}
+  .item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .item-top h3{font-size:1.05rem;color:var(--cream);font-family:'Poppins';font-weight:700;text-transform:none;letter-spacing:0;}
+  .item-price{color:var(--gold);font-weight:800;font-size:1.1rem;white-space:nowrap;}
+  .item-desc{color:#b8ab8f;font-size:0.85rem;line-height:1.5;flex:1;}
+  .item-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+  .qty-control{
+    display:flex;align-items:center;gap:10px;
+    background:rgba(255,255,255,0.05);
+    border-radius:20px;padding:4px 6px;
+  }
+  .qty-control button{
+    width:26px;height:26px;border-radius:50%;
+    border:none;background:var(--red);color:#fff;
+    font-weight:700;cursor:pointer;font-size:1rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .qty-control span{min-width:18px;text-align:center;font-weight:700;}
+  .add-btn{
+    background:var(--gold);color:var(--black);
+    border:none;padding:9px 18px;border-radius:20px;
+    font-weight:700;font-size:0.8rem;text-transform:uppercase;
+    cursor:pointer;transition:transform 0.2s ease;
+  }
+  .add-btn:hover{transform:scale(1.05);}
+  .add-btn.added{background:var(--red);color:#fff;}
+
+  /* ABOUT */
+  .about{
+    display:grid;grid-template-columns:1fr 1fr;gap:60px;
+    max-width:1200px;margin:0 auto;align-items:center;
+  }
+  .about-img{
+    position:relative;
+    border-radius:20px;
+    overflow:hidden;
+    aspect-ratio:4/3;
+    background:radial-gradient(circle at 30% 30%, rgba(226,34,43,0.25), transparent 60%), var(--black-2);
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(240,185,59,0.15);
+  }
+  .about-img img{width:70%;filter:drop-shadow(0 20px 30px rgba(0,0,0,0.5));}
+  .about-text h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:18px;color:var(--cream);}
+  .about-text h2 span{color:var(--gold);}
+  .about-text p{color:#c9bda3;line-height:1.7;margin-bottom:24px;}
+  .about-stats{display:flex;gap:36px;flex-wrap:wrap;}
+  .stat b{
+    display:block;font-family:'Anton',sans-serif;
+    font-size:2rem;color:var(--red);
+  }
+  .stat span{color:#b8ab8f;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;}
+
+  /* WHY US */
+  .why-section{background:var(--black-2);}
+  .why-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;max-width:1100px;margin:0 auto;
+  }
+  .why-card{
+    background:linear-gradient(160deg,#1c1712,#100d0a);
+    border:1px solid rgba(240,185,59,0.12);
+    border-radius:18px;padding:30px 24px;text-align:center;
+    transition:transform 0.25s ease;
+  }
+  .why-card:hover{transform:translateY(-6px);}
+  .why-card .icon{font-size:2.2rem;margin-bottom:14px;}
+  .why-card h3{font-family:'Poppins';font-weight:700;font-size:1.05rem;text-transform:none;letter-spacing:0;color:var(--gold-2);margin-bottom:8px;}
+  .why-card p{color:#b8ab8f;font-size:0.88rem;line-height:1.6;}
+
+  /* CONTACT */
+  .contact-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:50px;
+    max-width:1100px;margin:0 auto;
+  }
+  .contact-info h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:16px;}
+  .contact-info h2 span{color:var(--red);}
+  .contact-info p{color:#c9bda3;line-height:1.7;margin-bottom:26px;}
+  .contact-item{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:18px;
+    color:var(--cream);
+  }
+  .contact-item .ic{
+    width:44px;height:44px;border-radius:50%;
+    background:rgba(240,185,59,0.12);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;flex-shrink:0;
+  }
+  .contact-item b{display:block;font-size:0.75rem;color:#b8ab8f;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;}
+  .whatsapp-cta{
+    background:linear-gradient(135deg,#25D366,#1ea952);
+    border-radius:18px;padding:34px;
+    display:flex;flex-direction:column;gap:16px;
+    justify-content:center;
+    box-shadow:0 15px 40px rgba(37,211,102,0.25);
+  }
+  .whatsapp-cta h3{font-family:'Poppins';font-weight:800;font-size:1.3rem;text-transform:none;letter-spacing:0;color:#fff;}
+  .whatsapp-cta p{color:rgba(255,255,255,0.9);font-size:0.9rem;line-height:1.6;}
+  .whatsapp-cta .btn{background:#fff;color:#1ea952;justify-content:center;}
+
+  /* FOOTER */
+  footer{
+    background:var(--black);
+    border-top:1px solid rgba(240,185,59,0.15);
+    padding:40px 5% 24px;
+    text-align:center;
+  }
+  .footer-brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;}
+  .footer-brand img{height:40px;}
+  .footer-brand span{font-family:'Anton';color:var(--gold);font-size:1.1rem;letter-spacing:1px;}
+  footer p{color:#8a7d63;font-size:0.85rem;}
+
+  /* WHATSAPP FLOAT */
+  .wa-float{
+    position:fixed;bottom:26px;right:26px;z-index:200;
+    width:60px;height:60px;border-radius:50%;
+    background:#25D366;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 24px rgba(37,211,102,0.5);
+    cursor:pointer;
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 8px 24px rgba(37,211,102,0.5);}
+    50%{box-shadow:0 8px 32px rgba(37,211,102,0.85), 0 0 0 8px rgba(37,211,102,0.12);}
+  }
+  .wa-float svg{width:30px;height:30px;}
+
+  /* CART DRAWER */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.6);
+    z-index:300;opacity:0;pointer-events:none;transition:opacity 0.3s ease;
+  }
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .cart-drawer{
+    position:fixed;top:0;right:-420px;width:min(420px,92vw);height:100%;
+    background:var(--black-2);
+    border-left:1px solid rgba(240,185,59,0.2);
+    z-index:301;
+    display:flex;flex-direction:column;
+    transition:right 0.35s ease;
+  }
+  .cart-drawer.open{right:0;}
+  .cart-head{
+    padding:22px 24px;border-bottom:1px solid rgba(240,185,59,0.15);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .cart-head h3{font-family:'Anton';color:var(--gold);font-size:1.2rem;letter-spacing:1px;}
+  .cart-head button{background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;}
+  .cart-body{flex:1;overflow-y:auto;padding:18px 24px;}
+  .cart-empty{color:#8a7d63;text-align:center;margin-top:60px;font-size:0.95rem;}
+  .cart-line{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);
+    gap:10px;
+  }
+  .cart-line-name{font-weight:600;font-size:0.92rem;color:var(--cream);}
+  .cart-line-meta{color:#8a7d63;font-size:0.78rem;margin-top:2px;}
+  .cart-line-right{display:flex;align-items:center;gap:10px;}
+  .cart-line .qty-control button{width:22px;height:22px;font-size:0.85rem;}
+  .cart-remove{background:none;border:none;color:var(--red);font-size:1.1rem;cursor:pointer;}
+  .cart-foot{
+    padding:22px 24px;border-top:1px solid rgba(240,185,59,0.15);
+  }
+  .cart-total{
+    display:flex;justify-content:space-between;
+    font-weight:800;font-size:1.1rem;color:var(--cream);
+    margin-bottom:18px;
+  }
+  .cart-total span:last-child{color:var(--gold);}
+  .form-group{margin-bottom:14px;}
+  .form-group label{
+    display:block;font-size:0.78rem;color:#b8ab8f;
+    text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;font-weight:600;
+  }
+  .form-group input,.form-group textarea{
+    width:100%;padding:11px 14px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(240,185,59,0.2);
+    border-radius:10px;
+    color:var(--cream);font-family:'Poppins';font-size:0.9rem;
+    outline:none;
+  }
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--gold);}
+  .form-group textarea{resize:none;min-height:60px;}
+  .order-wa-btn{
+    width:100%;background:#25D366;color:#fff;
+    border:none;padding:15px;border-radius:12px;
+    font-weight:800;font-size:0.95rem;text-transform:uppercase;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    cursor:pointer;transition:transform 0.2s ease;
+  }
+  .order-wa-btn:hover{transform:translateY(-2px);}
+  .order-note{font-size:0.75rem;color:#8a7d63;margin-top:10px;text-align:center;}
+
+  @media(max-width:900px){
+    .about,.contact-grid{grid-template-columns:1fr;}
+    nav{display:none;}
+    .menu-toggle{display:block;}
+  }
+  @media(max-width:900px){
+    header nav{
+      position:fixed;top:78px;left:0;right:0;
+      background:var(--black-2);
+      flex-direction:column;
+      padding:20px 0;
+      border-bottom:1px solid rgba(240,185,59,0.15);
+      display:none;
+    }
+    header nav.open{display:flex;}
+    header nav ul{flex-direction:column;align-items:center;gap:20px;}
+  }
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-track{background:var(--black-2);}
+  ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:10px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+
+  /* VALUES / PROMISE (About section) */
+  .values-section{background:var(--black-2);}
+  .values-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;max-width:1100px;margin:0 auto;
+  }
+  .value-card{
+    background:linear-gradient(160deg,#1c1712,#100d0a);
+    border:1px solid rgba(240,185,59,0.12);
+    border-radius:18px;padding:34px 26px;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+  }
+  .value-card:hover{transform:translateY(-6px);border-color:rgba(240,185,59,0.4);}
+  .value-num{font-family:'Anton';font-size:2.2rem;color:rgba(240,185,59,0.25);margin-bottom:10px;}
+  .value-card h3{font-family:'Poppins';font-weight:700;font-size:1.1rem;text-transform:none;letter-spacing:0;color:var(--gold-2);margin-bottom:10px;}
+  .value-card p{color:#b8ab8f;font-size:0.9rem;line-height:1.65;}
+  .promise-block{
+    max-width:900px;margin:0 auto;
+    background:linear-gradient(135deg, rgba(226,34,43,0.12), rgba(240,185,59,0.06));
+    border:1px solid rgba(240,185,59,0.2);
+    border-radius:24px;padding:50px 40px;text-align:center;
+  }
+  .promise-block .eyebrow{justify-content:center;display:flex;}
+  .promise-block h2{font-size:clamp(1.6rem,3.5vw,2.2rem);margin-bottom:16px;color:var(--cream);}
+  .promise-block h2 span{color:var(--red);}
+  .promise-block p{color:#d8cdb8;line-height:1.75;max-width:640px;margin:0 auto;}
+
+  /* CONTACT SECTION */
+  .contact-cards{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:24px;max-width:1100px;margin:0 auto;
+  }
+  .ccard{
+    background:linear-gradient(160deg,#1c1712,#100d0a);
+    border:1px solid rgba(240,185,59,0.12);
+    border-radius:18px;padding:32px 26px;text-align:center;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+  }
+  .ccard:hover{transform:translateY(-6px);border-color:rgba(240,185,59,0.4);}
+  .ccard .ic{
+    width:56px;height:56px;border-radius:50%;
+    background:rgba(240,185,59,0.12);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;margin:0 auto 16px;
+  }
+  .ccard h3{font-family:'Poppins';font-weight:700;font-size:1.02rem;text-transform:none;letter-spacing:0;color:var(--gold-2);margin-bottom:8px;}
+  .ccard p{color:#b8ab8f;font-size:0.88rem;line-height:1.6;}
+  .ccard a{color:var(--cream);font-weight:600;}
+  .ccard a:hover{color:var(--gold);}
+  .contact-split{
+    display:grid;grid-template-columns:1fr 1fr;gap:50px;
+    max-width:1100px;margin:0 auto 56px;align-items:stretch;
+  }
+  .inquiry-form{
+    background:linear-gradient(160deg,#1c1712,#100d0a);
+    border:1px solid rgba(240,185,59,0.15);
+    border-radius:20px;padding:36px 32px;
+  }
+  .inquiry-form h3{font-family:'Poppins';font-weight:800;font-size:1.2rem;text-transform:none;letter-spacing:0;color:var(--cream);margin-bottom:8px;}
+  .inquiry-form > p{color:#b8ab8f;font-size:0.88rem;margin-bottom:22px;line-height:1.6;}
+  .map-block{
+    border-radius:20px;overflow:hidden;
+    border:1px solid rgba(240,185,59,0.15);
+    min-height:280px;position:relative;
+  }
+  .map-block iframe{width:100%;height:100%;min-height:280px;border:0;filter:grayscale(0.3) contrast(1.05);}
+  .map-tag{
+    position:absolute;bottom:16px;left:16px;
+    background:rgba(12,10,8,0.85);
+    padding:10px 16px;border-radius:12px;
+    font-size:0.82rem;color:var(--gold);font-weight:700;
+    border:1px solid rgba(240,185,59,0.3);
+  }
+  .hours-list{list-style:none;max-width:340px;margin:0 auto;}
+  .hours-list li{
+    display:flex;justify-content:space-between;
+    padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);
+    color:#d8cdb8;font-size:0.9rem;
+  }
+  .hours-list li b{color:var(--cream);font-weight:600;}
+  @media(max-width:900px){
+    .contact-split{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header>
+  <div class="brand">
+    <img src="assets/logo.png" alt="Bhoria Fast Food logo">
+  </div>
+  <nav id="mainNav">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <button class="cart-btn" onclick="openCart()">
+      🛒 Order <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="menu-toggle" onclick="document.getElementById('mainNav').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-slider">
+    <div class="hero-slide active" style="background-image:url('assets/slide1.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('assets/slide2.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('assets/slide3.jpg');"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <img class="hero-logo" src="assets/logo.png" alt="Bhoria Fast Food">
+    <p class="eyebrow">Karachi's Flame-Grilled Favourite</p>
+    <h1>Good Food<br><span>Good Mood</span></h1>
+    <p class="sub">Loaded burgers, crispy fries and ice-cold drinks — fired up fresh and delivered straight to your door. Order in seconds, straight on WhatsApp.</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="btn btn-primary">🍔 View Menu</a>
+      <a href="https://wa.me/923452933293?text=Assalam-o-Alaikum%2C%20I%27d%20like%20to%20place%20an%20order%20at%20Bhoria%20Fast%20Food." target="_blank" class="btn btn-outline">💬 Order on WhatsApp</a>
+    </div>
+  </div>
+  <div class="flame-strip"></div>
+</section>
+
+<section class="section menu-section" id="menu">
+  <div class="section-head">
+    <p class="eyebrow">The Menu</p>
+    <h2>Fresh Off The <span>Grill</span></h2>
+    <p>Pick your favourites, add them to your order, and check out straight on WhatsApp.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-cat="burgers">Burgers</button>
+    <button class="tab" data-cat="fries">Fries &amp; Sides</button>
+    <button class="tab" data-cat="deals">Deals</button>
+    <button class="tab" data-cat="drinks">Drinks</button>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-category active" id="cat-burgers"></div>
+    <div class="menu-category" id="cat-fries"></div>
+    <div class="menu-category" id="cat-deals"></div>
+    <div class="menu-category" id="cat-drinks"></div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="about">
+    <div class="about-img">
+      <img src="assets/logo.png" alt="Bhoria Fast Food">
+    </div>
+    <div class="about-text">
+      <p class="eyebrow">Our Story</p>
+      <h2>Made For People Who <span>Mean Business</span> About Their Burgers</h2>
+      <p>Bhoria Fast Food started with a simple idea: Karachi deserves fast food that doesn't cut corners. Every burger, every basket of fries, every deal on our menu is made the way we'd want to eat it ourselves — fresh, generous, and packed with flavour.</p>
+      <p>From a single grill and a handful of recipes, we've grown into a name people trust for their burger cravings — but the promise hasn't changed. We still grill to order, pack every box like it's going to family, and treat every WhatsApp order like a real conversation, not just a transaction.</p>
+      <div class="about-stats">
+        <div class="stat"><b>100%</b><span>Fresh Daily</span></div>
+        <div class="stat"><b>15 Min</b><span>Avg. Prep Time</span></div>
+        <div class="stat"><b>4.9★</b><span>Customer Love</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section values-section">
+  <div class="section-head">
+    <p class="eyebrow">What We Stand For</p>
+    <h2>Our <span>Values</span></h2>
+    <p>The four things we never compromise on, order after order.</p>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-num">01</div>
+      <h3>Freshness First</h3>
+      <p>Patties grilled to order, buns toasted fresh, produce sourced daily — nothing sits around waiting for you.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">02</div>
+      <h3>Bold Flavour</h3>
+      <p>Our recipes are built around real spice and real sauce — no shortcuts, no watered-down flavour.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">03</div>
+      <h3>Honest Service</h3>
+      <p>Every order confirmed personally on WhatsApp, so you always know exactly what's coming and when.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">04</div>
+      <h3>Clean & Careful</h3>
+      <p>High hygiene standards in every kitchen step, from prep to the box that reaches your door.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="promise-block">
+    <p class="eyebrow">Our Promise</p>
+    <h2>Good Food, <span>Good Mood</span> — Every Order</h2>
+    <p>Whether it's a quick solo meal or a family feast, we promise the same standard every time: fresh ingredients, fair prices, and food that's worth the craving. That's the promise behind everything we make.</p>
+  </div>
+</section>
+
+<section class="section why-section">
+  <div class="section-head">
+    <p class="eyebrow">Why Bhoria</p>
+    <h2>Why People Keep <span>Coming Back</span></h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="icon">🔥</div>
+      <h3>Flame-Grilled Fresh</h3>
+      <p>Every patty grilled fresh to order — nothing sits and waits for you.</p>
+    </div>
+    <div class="why-card">
+      <div class="icon">⚡</div>
+      <h3>Fast Turnaround</h3>
+      <p>From order to doorstep, we keep it quick without rushing the quality.</p>
+    </div>
+    <div class="why-card">
+      <div class="icon">💬</div>
+      <h3>Order On WhatsApp</h3>
+      <p>Build your order here, send it in one tap, and we'll confirm it right away.</p>
+    </div>
+    <div class="why-card">
+      <div class="icon">👑</div>
+      <h3>Made Like Royalty</h3>
+      <p>Generous portions, bold flavours — food that earns the crown on our logo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="section-head">
+    <p class="eyebrow">Get In Touch</p>
+    <h2>Craving Something <span>Right Now?</span></h2>
+    <p>Build your order above or just message us directly — either way, your food's on its way in minutes.</p>
+  </div>
+
+  <div class="contact-cards" style="margin-bottom:56px;">
+    <div class="ccard">
+      <div class="ic">📞</div>
+      <h3>Call / WhatsApp</h3>
+      <p><a href="tel:+923452933293">0345 2933293</a></p>
+    </div>
+    <div class="ccard">
+      <div class="ic">🕒</div>
+      <h3>Opening Hours</h3>
+      <p>Daily, 12:00 PM – 1:00 AM</p>
+    </div>
+    <div class="ccard">
+      <div class="ic">📍</div>
+      <h3>Delivery Area</h3>
+      <p>Across Karachi</p>
+    </div>
+    <div class="ccard">
+      <div class="ic">💬</div>
+      <h3>Orders</h3>
+      <p>Handled directly on WhatsApp</p>
+    </div>
+  </div>
+
+  <div class="contact-split">
+    <div class="inquiry-form">
+      <h3>Quick Inquiry</h3>
+      <p>Not ready to order yet? Ask us anything — menu, delivery, timing — and we'll get back to you on WhatsApp.</p>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="qName" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="qPhone" placeholder="03XX XXXXXXX">
+      </div>
+      <div class="form-group">
+        <label>Your Message</label>
+        <textarea id="qMessage" placeholder="What would you like to know?" style="min-height:100px;"></textarea>
+      </div>
+      <button class="order-wa-btn" onclick="sendInquiry()">💬 Send on WhatsApp</button>
+      <p class="order-note">Opens WhatsApp directly with your message ready to send.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="map-block">
+        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=66.9%2C24.75%2C67.15%2C24.95&layer=mapnik" loading="lazy"></iframe>
+        <div class="map-tag">📍 Delivering across Karachi</div>
+      </div>
+      <div class="whatsapp-cta" style="flex:0;">
+        <h3>💬 Prefer to chat directly?</h3>
+        <p>Tap below to message us directly. Tell us what you're craving and we'll take it from there.</p>
+        <a href="https://wa.me/923452933293?text=Assalam-o-Alaikum%2C%20I%27d%20like%20to%20place%20an%20order%20at%20Bhoria%20Fast%20Food." target="_blank" class="btn">Chat On WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <ul class="hours-list">
+    <li><b>Monday – Sunday</b> 12:00 PM – 1:00 AM</li>
+    <li><b>Order Method</b> WhatsApp only</li>
+    <li><b>Avg. Delivery</b> 30–45 minutes</li>
+    <li><b>Payment</b> Cash on delivery</li>
+  </ul>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <img src="assets/logo.png" alt="Bhoria Fast Food">
+  </div>
+  <p>© 2026 Bhoria Fast Food. All rights reserved. · Good Food, Good Mood.</p>
+</footer>
+
+<!-- Floating WhatsApp Button -->
+<a class="wa-float" href="https://wa.me/923452933293?text=Assalam-o-Alaikum%2C%20I%27d%20like%20to%20place%20an%20order%20at%20Bhoria%20Fast%20Food." target="_blank" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff"><path d="M16.02 2.7C8.65 2.7 2.66 8.68 2.66 16.05c0 2.62.7 5.06 1.9 7.17L2.5 29.3l6.24-1.98a13.3 13.3 0 006.28 1.6h.01c7.37 0 13.36-5.98 13.36-13.35 0-3.57-1.39-6.93-3.9-9.44a13.28 13.28 0 00-9.45-3.9zm0 24.06h-.01a11.1 11.1 0 01-5.66-1.55l-.4-.24-4.2 1.33 1.36-4.1-.26-.42a11.08 11.08 0 01-1.7-5.9c0-6.14 5-11.14 11.16-11.14 2.98 0 5.78 1.16 7.89 3.27a11.06 11.06 0 013.26 7.89c0 6.14-5 11.14-11.14 11.14v.02zm6.1-8.34c-.34-.17-1.98-.98-2.28-1.09-.31-.11-.53-.17-.75.17-.22.34-.86 1.09-1.05 1.31-.19.22-.39.25-.72.08-.34-.17-1.42-.52-2.7-1.67-1-.89-1.67-1.99-1.87-2.33-.19-.34-.02-.52.15-.7.15-.15.34-.39.51-.58.17-.2.22-.34.34-.56.11-.22.06-.42-.03-.59-.08-.17-.75-1.8-1.03-2.47-.27-.65-.55-.56-.75-.57l-.64-.01c-.22 0-.58.08-.88.42-.3.34-1.16 1.13-1.16 2.75s1.19 3.19 1.36 3.41c.17.22 2.34 3.57 5.67 5.01.79.34 1.41.55 1.89.7.79.25 1.52.21 2.09.13.64-.1 1.98-.81 2.26-1.59.28-.78.28-1.45.19-1.59-.08-.14-.3-.22-.64-.39z"/></svg>
+</a>
+
+<!-- Cart Drawer -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your Order</h3>
+    <button onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <p class="cart-empty">Your order is empty. Add something tasty from the menu!</p>
+  </div>
+  <div class="cart-foot" id="cartFoot" style="display:none;">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">Rs. 0</span></div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="custName" placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="custPhone" placeholder="03XX XXXXXXX">
+    </div>
+    <div class="form-group">
+      <label>Delivery Address</label>
+      <textarea id="custAddress" placeholder="House #, street, area, landmark"></textarea>
+    </div>
+    <button class="order-wa-btn" onclick="sendOrder()">💬 Send Order on WhatsApp</button>
+    <p class="order-note">Your order & details open directly in WhatsApp for confirmation.</p>
+  </div>
+</div>
+
+<script>
+  const MENU = {
+    burgers: [
+      {id:'b1', name:'Bhoria Zinger Burger', desc:'Crispy fried chicken fillet, fresh lettuce, mayo in a toasted bun.', price:550},
+      {id:'b2', name:'Bhoria Beef Burger', desc:'Grilled beef patty, melted cheese, lettuce, tomato & special sauce.', price:600},
+      {id:'b3', name:'Double Cheese Burger', desc:'Double beef patty, double cheese, loaded with our house sauce.', price:750},
+      {id:'b4', name:'Crown Chicken Burger', desc:'Our signature stacked chicken burger with cheese & smoky sauce.', price:680},
+    ],
+    fries: [
+      {id:'f1', name:'Regular Fries', desc:'Golden, crispy, salted to perfection.', price:250},
+      {id:'f2', name:'Peri Peri Fries', desc:'Regular fries tossed in spicy peri peri seasoning.', price:300},
+      {id:'f3', name:'Cheese Loaded Fries', desc:'Fries smothered in melted cheddar cheese sauce.', price:400},
+      {id:'f4', name:'Chicken Wings (6pc)', desc:'Crispy fried wings tossed in your choice of sauce.', price:550},
+    ],
+    deals: [
+      {id:'d1', name:'Solo Deal', desc:'1 Zinger Burger + Regular Fries + Drink.', price:900},
+      {id:'d2', name:'Bhoria Duo Deal', desc:'2 Beef Burgers + 2 Fries + 2 Drinks.', price:1650},
+      {id:'d3', name:'Family Feast', desc:'4 Burgers + 2 Large Fries + 4 Drinks + Wings.', price:3200},
+      {id:'d4', name:'Crown Combo', desc:'Crown Chicken Burger + Cheese Fries + Drink.', price:1050},
+    ],
+    drinks: [
+      {id:'w1', name:'Soft Drink (Regular)', desc:'Coke, Sprite, Fanta or Pepsi — 345ml.', price:120},
+      {id:'w2', name:'Soft Drink (1.5L)', desc:'Family size bottle, your choice of flavour.', price:250},
+      {id:'w3', name:'Fresh Lemonade', desc:'Chilled, tangy, made fresh in-house.', price:200},
+      {id:'w4', name:'Mineral Water', desc:'500ml chilled bottle.', price:80},
+    ]
+  };
+
+  let cart = {};
+
+  function renderMenu(){
+    Object.keys(MENU).forEach(cat=>{
+      const container = document.getElementById('cat-'+cat);
+      container.innerHTML = MENU[cat].map(item => `
+        <div class="item-card">
+          <div class="item-top">
+            <h3>${item.name}</h3>
+            <div class="item-price">Rs. ${item.price}</div>
+          </div>
+          <div class="item-desc">${item.desc}</div>
+          <div class="item-bottom">
+            <div class="qty-control">
+              <button onclick="changeQty('${item.id}', -1)">−</button>
+              <span id="qty-${item.id}">0</span>
+              <button onclick="changeQty('${item.id}', 1)">+</button>
+            </div>
+            <button class="add-btn" id="add-${item.id}" onclick="addToCart('${cat}','${item.id}')">Add</button>
+          </div>
+        </div>
+      `).join('');
+    });
+  }
+
+  function findItem(id){
+    for(const cat in MENU){
+      const found = MENU[cat].find(i=>i.id===id);
+      if(found) return found;
+    }
+    return null;
+  }
+
+  const pendingQty = {};
+
+  function changeQty(id, delta){
+    const current = pendingQty[id] || 0;
+    const next = Math.max(0, current + delta);
+    pendingQty[id] = next;
+    document.getElementById('qty-'+id).textContent = next;
+  }
+
+  function addToCart(cat, id){
+    const qty = pendingQty[id] || 1;
+    if(qty === 0){ pendingQty[id] = 1; document.getElementById('qty-'+id).textContent = 1; }
+    const finalQty = pendingQty[id] || 1;
+    if(cart[id]){
+      cart[id].qty += finalQty;
+    } else {
+      const item = findItem(id);
+      cart[id] = {...item, qty: finalQty};
+    }
+    pendingQty[id] = 0;
+    document.getElementById('qty-'+id).textContent = 0;
+    const btn = document.getElementById('add-'+id);
+    btn.textContent = 'Added ✓';
+    btn.classList.add('added');
+    setTimeout(()=>{ btn.textContent='Add'; btn.classList.remove('added'); }, 1200);
+    renderCart();
+  }
+
+  function removeFromCart(id){
+    delete cart[id];
+    renderCart();
+  }
+
+  function cartQtyChange(id, delta){
+    if(!cart[id]) return;
+    cart[id].qty += delta;
+    if(cart[id].qty <= 0) delete cart[id];
+    renderCart();
+  }
+
+  function renderCart(){
+    const items = Object.values(cart);
+    const body = document.getElementById('cartBody');
+    const foot = document.getElementById('cartFoot');
+    const countEl = document.getElementById('cartCount');
+    const totalCount = items.reduce((s,i)=>s+i.qty,0);
+    countEl.textContent = totalCount;
+
+    if(items.length === 0){
+      body.innerHTML = '<p class="cart-empty">Your order is empty. Add something tasty from the menu!</p>';
+      foot.style.display = 'none';
+      return;
+    }
+
+    foot.style.display = 'block';
+    body.innerHTML = items.map(item => `
+      <div class="cart-line">
+        <div>
+          <div class="cart-line-name">${item.name}</div>
+          <div class="cart-line-meta">Rs. ${item.price} each</div>
+        </div>
+        <div class="cart-line-right">
+          <div class="qty-control">
+            <button onclick="cartQtyChange('${item.id}', -1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="cartQtyChange('${item.id}', 1)">+</button>
+          </div>
+          <button class="cart-remove" onclick="removeFromCart('${item.id}')">🗑</button>
+        </div>
+      </div>
+    `).join('');
+
+    const total = items.reduce((s,i)=>s + i.qty*i.price, 0);
+    document.getElementById('cartTotal').textContent = 'Rs. ' + total.toLocaleString();
+  }
+
+  function openCart(){
+    document.getElementById('cartDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }
+  function closeCart(){
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+
+  function sendOrder(){
+    const items = Object.values(cart);
+    if(items.length === 0){ alert('Please add at least one item to your order.'); return; }
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const address = document.getElementById('custAddress').value.trim();
+
+    if(!name || !phone || !address){
+      alert('Please fill in your name, phone number and address so we can deliver your order.');
+      return;
+    }
+
+    let msg = `*New Order — Bhoria Fast Food*\\n\\n`;
+    msg += `*Customer Name:* ${name}\\n`;
+    msg += `*Phone:* ${phone}\\n`;
+    msg += `*Delivery Address:* ${address}\\n\\n`;
+    msg += `*Order Details:*\\n`;
+    items.forEach(item=>{
+      msg += `• ${item.name} x${item.qty} — Rs. ${item.price*item.qty}\\n`;
+    });
+    const total = items.reduce((s,i)=>s + i.qty*i.price, 0);
+    msg += `\\n*Total: Rs. ${total.toLocaleString()}*`;
+
+    const url = `https://wa.me/923452933293?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  function sendInquiry(){
+    const name = document.getElementById('qName').value.trim();
+    const phone = document.getElementById('qPhone').value.trim();
+    const message = document.getElementById('qMessage').value.trim();
+
+    if(!name || !phone || !message){
+      alert('Please fill in your name, phone number and message.');
+      return;
+    }
+
+    let msg = `*New Inquiry — Bhoria Fast Food*\\n\\n`;
+    msg += `*Name:* ${name}\\n`;
+    msg += `*Phone:* ${phone}\\n`;
+    msg += `*Message:* ${message}`;
+
+    const url = `https://wa.me/923452933293?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.menu-category').forEach(c=>c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('cat-'+tab.dataset.cat).classList.add('active');
+    });
+  });
+
+  // Close mobile nav on link click
+  document.querySelectorAll('nav a').forEach(a=>{
+    a.addEventListener('click', ()=>{
+      document.getElementById('mainNav').classList.remove('open');
+    });
+  });
+
+  renderMenu();
+
+  // Hero background slider
+  (function(){
+    const slides = document.querySelectorAll('.hero-slide');
+    if(slides.length < 2) return;
+    let current = 0;
+    setInterval(()=>{
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 2000);
+  })();
+</script>
+
+</body>
+</html>
